@@ -1,0 +1,16 @@
+LINKS:
+	1. http://se7so.blogspot.com/2012/07/hijacking-linux-system-calls-rootkit.html
+	2. http://learnlinuxconcepts.blogspot.com/2014/03/what-is-loadable-kernel-module.html
+	3. http://syprog.blogspot.com/2011/10/hijack-linux-system-calls-part-iii.html
+	4. https://www.howtoforge.com/reading-files-from-the-linux-kernel-space-module-driver-fedora-14
+	5. http://mixeduperic.com/ubuntu/how-to-set-the-root-password-in-ubuntu.html
+	6. https://tnichols.org/2015/10/19/Hooking-the-Linux-System-Call-Table/
+	7. https://linux.die.net/man/2/read
+	8. http://nairobi-embedded.org/access_dev_files_from_krn.html
+	9. http://www.makelinux.net/books/lkd2/ch11lev1sec4
+	10. https://bbs.archlinux.org/viewtopic.php?id=139406
+	11. https://memset.wordpress.com/2010/12/03/syscall-hijacking-kernel-2-6-systems/
+
+HOW DOES IT DO?!?!?!
+
+Basically this LKM get the sys_call_table, changes the read system call read address to your custom read system call, and then the custom read call iterates through the buffer and changes the i's to I's. In order to get the system call table, you call the acquire_sys_call_table method. After you get the system call table, you get the cr0 register and store it in original_cr0. After you get cr0, you change the permission bit so that the system call table can be modified. We then store the original read system call into a variable. After that, we store the address of our custom read system call into the system call table at the spot of the original read system call. After that, everything that is read into the kernel, we will get our i's converted into I's. 

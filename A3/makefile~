@@ -1,0 +1,2 @@
+ThreadSwap:
+	gcc A3.c -o A3 -g
